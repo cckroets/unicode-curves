@@ -16,7 +16,10 @@
 #include "LSystem.hpp"
 #include "Bug.hpp"
 #include <string>
+#include <fstream>
+#include <iostream>
 
+typedef std::string filename;
 
 /* The Hilbert Curve as a Lindenmayer system,
  http://en.wikipedia.org/wiki/Hilbert_curve
@@ -76,6 +79,46 @@ inline LSystem Dragon(uint order = 1) {
     prod_rules.insert(Rule('Y', "FX-Y"));
     
     return LSystem(prod_rules, axiom, order);
+}
+
+
+/* ------ Ouput the Curves to unicode files --------- */
+
+#define TEMP_EXT ".temp"
+
+inline void to_temp_file(const filename& temp_file, const LSystem& Curve) {
+    
+    std::ofstream out(temp_file.c_str());
+    
+    std::vector<uint> walk = Curve.unicode_values();
+    
+    // Print out the int value of each unicode character
+    std::vector<uint>::iterator car;
+    for (car = walk.begin(); car != walk.end(); car++)
+        out << *car << " ";
+    
+    // Flush
+    out.close();
+}
+
+inline void to_file(const filename& file, const LSystem& Curve) {
+    
+    filename temp_name = file + TEMP_EXT;
+    
+    std::string racket_pwd = "/Applications/Racket\\ v5.3.1/bin/racket ";
+    std::string executable = "unicode.ss";
+    
+    // Write the values of each char to a temporary file
+    to_temp_file(temp_name, Curve);
+    
+    std::string command = racket_pwd + executable + " < " + temp_name + " > " + file;
+    
+    // Use the unicode converter to convert the values to unicode
+    system(command.c_str());
+    
+    // Delete temp file
+    std::remove(temp_name.c_str());
+    
 }
 
 

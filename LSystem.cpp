@@ -6,8 +6,8 @@
 //
 //
 
-#include "../../LSystem.hpp"
-#include "../../Bug.hpp"
+#include "LSystem.hpp"
+#include "Bug.hpp"
 #include <iostream>
 
 /*
@@ -98,7 +98,7 @@ int LSystem::substitute(std::string& str, std::size_t pos) {
 std::string LSystem::production() { return _production; }
 
 // Print the produced walk (list of BDC)
-void LSystem::print_curve() {
+std::vector<uint> LSystem::unicode_values() const{
     
 
     // Tell the Bug what to do at each command
@@ -116,12 +116,10 @@ void LSystem::print_curve() {
     }
     
     std::vector<uint> walk = DrawBug.walk();
-    std::vector<uint>::iterator car;
     
-    // Print out the int value of each unicode character
-    for (car = walk.begin(); car != walk.end(); car++)
-        std::cout << *car << " ";
+    return DrawBug.walk();
     
+
     std::cout << std::endl;
 }
 

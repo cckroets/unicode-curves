@@ -10,6 +10,7 @@
 #define _BUG_hpp
 
 #include <vector>
+#include <deque>
 #include <string>
 #include <utility>
 #include <algorithm>
@@ -40,8 +41,8 @@ inline uint unicode_value(BDC c) {
 }
 
 // A grid is a 2D vector of box drawing characters
-typedef std::vector<BDC> Row;
-typedef std::vector<Row> Grid;
+typedef std::deque<BDC> Row;
+typedef std::deque<Row> Grid;
 
 // A point somewhere in 2D space
 struct point {
@@ -89,7 +90,7 @@ inline size_t height(Grid& g) { return g.size(); }
 inline size_t width(Grid& g) { return g.front().size(); }
 
 // Insert a blank space at the front of a Row
-inline void buff_blank(Row& R) { R.insert(R.begin(),BLANK); }
+inline void buff_blank(Row& R) { R.push_front(BLANK); }
 
 // Push a blank space onto all Rows in the grid
 inline void Bug::x_buffer() {
@@ -107,7 +108,7 @@ inline void Bug::x_push() {
 
 // Insert a blank row at the first row of the grid
 inline void Bug::y_buffer() {
-    _grid.insert(_grid.begin(), Row(width(_grid),BLANK));
+    _grid.push_front(Row(width(_grid),BLANK));
     _orig.y++;
 }
 

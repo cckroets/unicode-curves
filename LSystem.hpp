@@ -47,7 +47,7 @@ private:
 public:
     std::string production(); // Get a curve as a string of order k
     
-    void print_curve();
+    std::vector<uint> unicode_values() const;
     
     LSystem(Rules, std::string, uint k); // Create an L-Sytem of order k
 };
