@@ -9,8 +9,14 @@ Compile all files. The executable will output each character in integer form.
 
 Use unicode.ss to convert the output to unicode.
 
-$ g++ *cpp
-$ ./a.out > t1
-$ racket unicode.ss < t1 > hilbert.exe
+Compile program:
+> g++ -o curves *cpp
 
+Output unicodes:
+> ./curves > codes.txt
+
+Convert unicodes to characters:
+> racket unicode.ss < codes.txt > curve.txt
+
+Now curve.txt will look like this:
 ![alt tag](https://raw.github.com/cckroets/unicode-curves/master/examples/Hilbert.png)
